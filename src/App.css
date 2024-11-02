@@ -1,0 +1,365 @@
+*{
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+:root{
+  --maincolor: #379AFF;
+  --mainfont: 'Titillium Web';
+  --maindark: #333;
+}
+
+#root{
+  overflow-x: hidden;
+}
+
+.pageBody{
+  display: flex;
+  flex-direction: column;
+  height: auto;
+  min-height: 100vh;
+  width: 100vw;
+  overflow: hidden;
+  padding: 30px 160px;
+}
+
+.topBody{
+  width: 100%;
+  background-color: var(--maincolor);
+  text-align: center;
+  padding: 20px 0;
+}
+.topBody svg{
+  font-size: 70px;
+  color: white;
+}
+
+.midBody{
+  text-align: center;
+  margin-top: 20px;
+  color: var(--maincolor);
+}
+/* .midBody p{
+} */
+
+.formBody{
+  display: flex;
+  flex-direction: column;
+  width: auto;
+  min-width: 100%;
+}
+
+.formSections{
+  display: flex;
+  row-gap: 10px;
+  flex-direction: column;
+  margin: 20px 0;
+}
+
+.formSections h2{
+  color: var(--maincolor);
+}
+.formSections hr{
+  width: 100%;
+  border: none;
+  height: 1.5px;
+  background-color: var(--maincolor);
+}
+
+.formTextGroup{
+  display: flex;
+  width: 100%;
+  justify-content: space-between;
+  margin: 15px 0;
+}
+
+.formTextGroup > p {
+  display: flex;
+  align-items: center;
+  text-wrap: wrap;
+  font-size: 16px;
+  column-gap: 5px;
+  flex-basis: 30%;
+}
+.formTextGroup > p > span{
+  color: red;
+  font-size: 25px;
+}
+
+.formTextGroup > div{
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  height: auto;
+  width: 100%;
+}
+.formTextGroup > div > svg{
+  background-color: var(--maincolor);
+  color: white;
+  padding: 10px;
+  border-radius: 5px 0 0 5px;
+}
+.formTextGroup:not(.tableInputs, .imageInputs) > div > input{
+  height: 100%;
+  border: 2px solid var(--maincolor);
+  width: 100%;
+  padding-left: 10px;
+}
+.formTextGroup > div > textarea{
+  width: 100%;
+  height: 300%;
+  resize: none;
+  position: relative;
+  top: 100%;
+  border: 2px solid var(--maincolor);
+  padding-left: 10px;
+  font-family: 'Arial';
+}
+.formTextGroup > div > ul{
+  list-style: none;
+  display: flex;
+  flex-wrap: wrap;
+  gap: 20px;
+  width: 100%;
+}
+.formTextGroup > div > ul > li {
+  display: flex;
+  column-gap: 5px;
+  align-items: center;
+  justify-content: center;
+}
+input[type="checkbox"]{
+  padding: 5px;
+}
+
+.tableInputs, .checkInputs{
+  align-items: flex-start;
+}
+.tableInputs > div{
+  display: grid !important;
+  width: 640px;
+  grid-template-columns: auto auto auto;
+  gap: 20px;
+}
+.tableInputs > div > input{
+  width: 200px;
+  height: 30px;
+  padding-left: 10px;
+  border: 2px solid var(--maincolor);
+}
+
+input[type="file"]{
+  width: 700px;
+}
+
+.sumbitButton{
+  height: 50px;
+  width: 150px;
+  cursor: pointer;
+  background-color: var(--maincolor);
+  border: none;
+  border-radius: 5px;
+  color: white;
+  margin: 0 auto;
+}
+
+
+
+
+
+@media (max-width:1170px){
+  .formTextGroup{
+    flex-direction: column;
+    row-gap: 10px;
+    padding: 0 !important;
+    margin-top: 0 !important;
+    width: auto;
+  }
+  .formTextGroup > div {
+    align-items: flex-start;
+  }
+  .formTextGroup > div > input[type="text"], input[type="date"]{
+    height: 36px !important;
+  }
+  .formTextGroup > div > textarea {
+    height: 100px;
+  }
+
+  .formSections{
+    margin-top: 20px !important;
+  }
+}
+
+@media (max-width:960px) {
+  .tableInputs > div{
+    width: 100%;
+  }
+}
+
+@media (max-width:850px){
+  .pageBody{
+    padding: 30px 90px;
+  }
+}
+
+@media (max-width:675px){
+  .tableInputs > div {
+    grid-template-columns: auto auto;
+  }
+}
+
+@media (max-width:600px){
+  .pageBody{
+    padding: 30px 10px;
+  }
+}
+
+/* Download Page */
+
+.report-h1 {
+  text-align: center;
+}
+
+.row-1 {
+  display: flex;
+  justify-content: center;
+  margin: 0 auto;
+  max-width: 1000px;
+  margin-top: 20px;
+  gap: 10px;
+}
+
+.col-1,
+.col-2 {
+  border: 1px solid black;
+  width: 75vh;
+  padding: 10px;
+}
+
+.row-2,
+.row-3 {
+  border: 1px solid black;
+  max-width: 1000px;
+  margin: 0 auto;
+  margin-top: 20px;
+  word-wrap: break-word;
+  overflow-wrap: break-word;
+  padding: 10px;
+}
+
+.inline-fields {
+  display: flex;
+  gap: 80px;
+}
+
+.inline-fields p {
+  margin: 0;
+}
+
+.table-container {
+  max-width: 1000px;
+  margin: 0 auto;
+  margin-top: 20px;
+  overflow-x: auto;
+}
+
+.refrigerant-table {
+  width: 100%;
+  border-collapse: collapse;
+  border: 1px solid black;
+}
+
+.refrigerant-table th,
+.refrigerant-table td {
+  border: 1px solid black;
+  padding: 8px;
+  text-align: left;
+  width: 60px;
+}
+
+.refrigerant-table th {
+  background-color: #f2f2f2;
+  font-weight: bold;
+}
+
+.refrigerant-table td[colspan="4"] {
+  text-align: center;
+}
+
+.leak-container {
+  display: flex;
+  justify-content: space-between;
+  max-width: 1000px;
+  margin: 0 auto;
+  margin-top: -1px;
+  gap: 20px;
+}
+
+.leak-details,
+.leak-notes {
+  flex: 1;
+  /* border: 1px solid black; */
+  padding: 10px;
+}
+
+.leak-notes {
+  flex: 0.5;
+  border: 1px solid black;
+  padding: 10px;
+  overflow-y: auto;
+  word-wrap: break-word;
+  overflow-wrap: break-word;
+}
+.ptag{
+  margin-left: -147px;
+    display: flex;
+    justify-content: space-evenly;
+}
+.row-6{
+  max-width: 1000px;
+  margin: 0 auto;
+  border: 1px solid black;
+  margin-top: 20px;
+  padding: 5px;
+}
+
+.image-container {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  max-width: 1000px; 
+  margin: 0 auto;
+  padding: 20px;
+  gap: 20px; 
+}
+
+.image-section {
+  text-align: center;
+  flex: 1;
+}
+
+.comparison-image {
+  width: 100%;
+  max-width: 500px; 
+  height: auto;
+  border: 1px solid #ccc;
+  margin-top: 20px;
+}
+
+.button-container {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  margin-top: 20px; 
+  margin-bottom: 20px;
+}
+
+.btn{
+  height: 40px;
+  background-color: #008CBA;
+  border: none;
+  color: white;
+  border-radius: 5px;
+  padding: 5px;
+}
