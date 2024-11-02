@@ -12,7 +12,7 @@ const Form = () => {
 
     useEffect(() => {
         // Fetch data for dropdowns
-        fetch('http://localhost:5000/data/')
+        fetch('https://leaktestb.onrender.com/data/')
             .then(response => response.json())
             .then(data => setDropdownData(data))
             .catch(error => console.error('Error fetching dropdown data:', error));
