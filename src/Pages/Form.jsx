@@ -2,26 +2,24 @@ import React, { useState, useEffect } from 'react';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faForumbee } from '@fortawesome/free-brands-svg-icons';
 import { useNavigate } from 'react-router-dom';
+import { useCallback } from 'react';
 import Select from 'react-select';
-
 const Form = () => {
     const [formData, setFormData] = useState({});
     const [imagePreviews, setImagePreviews] = useState({ image1: null, image2: null });
     const [dropdownData, setDropdownData] = useState([]);
+    const [filteredOptions, setFilteredOptions] = useState({});
     const navigate = useNavigate();
 
     useEffect(() => {
-        // Fetch data for dropdowns
-        fetch('https://leaktestb.onrender.com/data/')
+        fetch('http://localhost:5000/data/')
             .then(response => response.json())
             .then(data => setDropdownData(data))
             .catch(error => console.error('Error fetching dropdown data:', error));
 
-        // Load existing form data from local storage
         const storedData = JSON.parse(localStorage.getItem('formData')) || {};
         setFormData(storedData);
 
-        // Load image previews from local storage
         const storedImage1 = localStorage.getItem('image1');
         const storedImage2 = localStorage.getItem('image2');
         if (storedImage1) setImagePreviews(prev => ({ ...prev, image1: storedImage1 }));
@@ -38,19 +36,19 @@ const Form = () => {
 
     const handleInputChange = (e) => {
         const { name, value } = e.target;
-        setFormData({
-            ...formData,
+        setFormData(prevData => ({
+            ...prevData,
             [name]: value
-        });
+        }));
     };
 
     const handleImageChange = (e, imageKey) => {
         const file = e.target.files[0];
         if (file) {
-            setFormData({
-                ...formData,
+            setFormData(prevData => ({
+                ...prevData,
                 [imageKey]: file
-            });
+            }));
             const fileReader = new FileReader();
             fileReader.onload = () => {
                 setImagePreviews(prev => ({
@@ -63,73 +61,59 @@ const Form = () => {
     };
 
     const handleSelectChange = (selectedOption, field) => {
-        setFormData({
-            ...formData,
-            [field]: selectedOption ? selectedOption.value : "",
-            [`${field}Label`]: selectedOption ? selectedOption.label : "" // Store the label for display
-        });
+      
+        if(selectedOption==null){
+            setFormData(prevData => ({
+                ...prevData,
+                [field]: "",
+                [`${field}Label`]: ""
+            }));    
+        }
+        else{
+        setFormData(prevData => ({
+            ...prevData,
+            [field]: selectedOption.value ? selectedOption.value : "",
+            [`${field}Label`]: selectedOption ? selectedOption.label : ""
+        }));
+    }
+        // console.log(formData)
     };
 
-    const getFilteredOptions = (field) => {
+    const getFilteredOptions = useCallback((field) => {
         let options = dropdownData;
-        console.log("Original dropdownData:", dropdownData);
-        console.log("Form Data:", formData);
-    console.log("options", options)
-        // Filter options based on available formData values
+        
         if (formData.equipmentId) {
-            console.log("Filtering by equipmentId");
             options = options.filter(item => item.equipmentId === formData.equipmentId);
         }
         if (formData.subLocation) {
-            console.log("Filtering by subLocation");
             options = options.filter(item => item.subloaction === formData.subLocation);
         }
         if (formData.model) {
-            console.log("Filtering by model");
             options = options.filter(item => item.model === formData.model);
         }
         if (formData.refrigerant) {
-            console.log("Filtering by refrigerant");
             options = options.filter(item => item.Rtype === formData.refrigerant);
         }
         if (formData.unitType) {
-            console.log("Filtering by unitType");
             options = options.filter(item => item.type === formData.unitType);
         }
-    
-        // Select field-specific options after applying all filters
+
         options = options.map(item => item[field]);
-    
-        // Remove duplicates
         options = [...new Set(options)];
-        console.log("first",options)
-        // Return options as objects with value and label keys
+
         return options.map(option => ({ value: option, label: option }));
-    };
-    
-    
-    // const getFilteredOptions = (field) => {
-    //     let options = dropdownData;
-    
-    //     // Apply filters based on other selected dropdown values
-    //     if (formData["Equipment ID"] && field !== "Equipment ID") {
-    //         options = options.filter(item => item["Equipment ID"] === formData["Equipment ID"]);
-    //     }
-    //     if (formData["Model "] && field !== "Model") {
-    //         options = options.filter(item => item["Model "] === formData["Model "]);
-    //     }
-    //     if (formData["Refrigerant"] && field !== "Refrigerant") {
-    //         options = options.filter(item => item["Refrigerant type (R - Number)"] === formData["Refrigerant"]);
-    //     }
-    //     if (formData["Unit Type"] && field !== "Unit Type") {
-    //         options = options.filter(item => item["Type"] === formData["Unit Type"]);
-    //     }
-    
-    //     // Extract unique options for the requested field
-    //     const uniqueOptions = [...new Set(options.map(item => item[field]))];
-    
-    //     return uniqueOptions.map(option => ({ value: option, label: option }));
-    // };
+    }, [dropdownData, formData]);
+
+    useEffect(() => {
+        const updatedFilteredOptions = {
+            equipmentId: getFilteredOptions('equipmentId'),
+            subLocation: getFilteredOptions('subLocation'),
+            model: getFilteredOptions('model'),
+            refrigerant: getFilteredOptions('refrigerant'),
+            unitType: getFilteredOptions('unitType')
+        };
+        setFilteredOptions(updatedFilteredOptions);
+    }, [getFilteredOptions]);
     
     return (
     <>
@@ -216,7 +200,7 @@ const Form = () => {
                        <div>
                     <FontAwesomeIcon icon={faForumbee} />
 
-                    <Select options={getFilteredOptions("subloaction")} value={ formData.equipmentId 
+                    <Select options={getFilteredOptions("subloaction")} value={ formData.subLocation 
                     ? { value: formData.subLocation, label: formData.subLocation }: null }
                     onChange={(selectedOption) => handleSelectChange(selectedOption, "subLocation")}
                     placeholder="Select Sub Location"
@@ -243,7 +227,7 @@ const Form = () => {
                     <FontAwesomeIcon icon={faForumbee} />
                     <Select
                         options={getFilteredOptions("manufacturer")}
-                        value={formData.model ? { value: formData.manufacturer,label: formData.manufacturer  } : null}
+                        value={formData.manufacturer ? { value: formData.manufacturer,label: formData.manufacturer  } : null}
                         onChange={(selectedOption) => handleSelectChange(selectedOption, "manufacturer")}
                         placeholder="Select Manufacturer"
                         isClearable
