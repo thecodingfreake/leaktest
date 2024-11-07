@@ -42,11 +42,15 @@ const Form = () => {
 
     const handleInputChange = (e) => {
         const { name, value } = e.target;
-        setFormData({
-            ...formData,
+    
+        // If the field is a date, format it before storing
+        setFormData(prevFormData => ({
+            ...prevFormData,
             [name]: value
-        });
+        }));
+        console.log(formData);
     };
+    
 
     const handleImageChange = (e, imageKey) => {
         const file = e.target.files[0];
@@ -76,28 +80,21 @@ const Form = () => {
 
     const getFilteredOptions = (field) => {
         let options = dropdownData;
-        console.log("Original dropdownData:", dropdownData);
-        console.log("Form Data:", formData);
-    console.log("options", options)
+       
         // Filter options based on available formData values
         if (formData.equipmentId) {
-            console.log("Filtering by equipmentId");
             options = options.filter(item => item.equipmentId === formData.equipmentId);
         }
         if (formData.subLocation) {
-            console.log("Filtering by subLocation");
             options = options.filter(item => item.subloaction === formData.subLocation);
         }
         if (formData.model) {
-            console.log("Filtering by model");
             options = options.filter(item => item.model === formData.model);
         }
         if (formData.refrigerant) {
-            console.log("Filtering by refrigerant");
             options = options.filter(item => item.Rtype === formData.refrigerant);
         }
         if (formData.unitType) {
-            console.log("Filtering by unitType");
             options = options.filter(item => item.type === formData.unitType);
         }
     
@@ -106,7 +103,6 @@ const Form = () => {
     
         // Remove duplicates
         options = [...new Set(options)];
-        console.log("first",options)
         // Return options as objects with value and label keys
         return options.map(option => ({ value: option, label: option }));
     };
@@ -195,7 +191,7 @@ const Form = () => {
                        <div>
                     <FontAwesomeIcon icon={faForumbee} />
 
-                    <Select options={getFilteredOptions("subloaction")} value={ formData.equipmentId 
+                    <Select options={getFilteredOptions("subloaction")} value={ formData.subLocation 
                     ? { value: formData.subLocation, label: formData.subLocation }: null }
                     onChange={(selectedOption) => handleSelectChange(selectedOption, "subLocation")}
                     placeholder="Select Sub Location"
@@ -222,7 +218,7 @@ const Form = () => {
                     <FontAwesomeIcon icon={faForumbee} />
                     <Select
                         options={getFilteredOptions("manufacturer")}
-                        value={formData.model ? { value: formData.manufacturer,label: formData.manufacturer  } : null}
+                        value={formData.manufacturer ? { value: formData.manufacturer,label: formData.manufacturer  } : null}
                         onChange={(selectedOption) => handleSelectChange(selectedOption, "manufacturer")}
                         placeholder="Select Manufacturer"
                         isClearable
