@@ -2,24 +2,30 @@ import React, { useState, useEffect } from 'react';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faForumbee } from '@fortawesome/free-brands-svg-icons';
 import { useNavigate } from 'react-router-dom';
-import { useCallback } from 'react';
+import image from "../assests/logo.png"
 import Select from 'react-select';
+
 const Form = () => {
     const [formData, setFormData] = useState({});
     const [imagePreviews, setImagePreviews] = useState({ image1: null, image2: null });
     const [dropdownData, setDropdownData] = useState([]);
-    const [filteredOptions, setFilteredOptions] = useState({});
     const navigate = useNavigate();
 
     useEffect(() => {
+        // Fetch data for dropdowns
         fetch('https://leaktestb.onrender.com/data/')
             .then(response => response.json())
             .then(data => setDropdownData(data))
             .catch(error => console.error('Error fetching dropdown data:', error));
 
+        // Load existing form data from local storage
         const storedData = JSON.parse(localStorage.getItem('formData')) || {};
+        storedData.serviceId="2024 RS001"
+        storedData.workOrder="47009456510"
+        storedData.contractors="SHAM ENGG.WORKS"
         setFormData(storedData);
 
+        // Load image previews from local storage
         const storedImage1 = localStorage.getItem('image1');
         const storedImage2 = localStorage.getItem('image2');
         if (storedImage1) setImagePreviews(prev => ({ ...prev, image1: storedImage1 }));
@@ -36,19 +42,19 @@ const Form = () => {
 
     const handleInputChange = (e) => {
         const { name, value } = e.target;
-        setFormData(prevData => ({
-            ...prevData,
+        setFormData({
+            ...formData,
             [name]: value
-        }));
+        });
     };
 
     const handleImageChange = (e, imageKey) => {
         const file = e.target.files[0];
         if (file) {
-            setFormData(prevData => ({
-                ...prevData,
+            setFormData({
+                ...formData,
                 [imageKey]: file
-            }));
+            });
             const fileReader = new FileReader();
             fileReader.onload = () => {
                 setImagePreviews(prev => ({
@@ -61,70 +67,59 @@ const Form = () => {
     };
 
     const handleSelectChange = (selectedOption, field) => {
-      
-        if(selectedOption==null){
-            setFormData(prevData => ({
-                ...prevData,
-                [field]: "",
-                [`${field}Label`]: ""
-            }));    
-        }
-        else{
-        setFormData(prevData => ({
-            ...prevData,
-            [field]: selectedOption.value ? selectedOption.value : "",
-            [`${field}Label`]: selectedOption ? selectedOption.label : ""
-        }));
-    }
-        // console.log(formData)
+        setFormData({
+            ...formData,
+            [field]: selectedOption ? selectedOption.value : "",
+            [`${field}Label`]: selectedOption ? selectedOption.label : "" // Store the label for display
+        });
     };
 
-    const getFilteredOptions = useCallback((field) => {
+    const getFilteredOptions = (field) => {
         let options = dropdownData;
-        
+        console.log("Original dropdownData:", dropdownData);
+        console.log("Form Data:", formData);
+    console.log("options", options)
+        // Filter options based on available formData values
         if (formData.equipmentId) {
+            console.log("Filtering by equipmentId");
             options = options.filter(item => item.equipmentId === formData.equipmentId);
         }
         if (formData.subLocation) {
+            console.log("Filtering by subLocation");
             options = options.filter(item => item.subloaction === formData.subLocation);
         }
         if (formData.model) {
+            console.log("Filtering by model");
             options = options.filter(item => item.model === formData.model);
         }
         if (formData.refrigerant) {
+            console.log("Filtering by refrigerant");
             options = options.filter(item => item.Rtype === formData.refrigerant);
         }
         if (formData.unitType) {
+            console.log("Filtering by unitType");
             options = options.filter(item => item.type === formData.unitType);
         }
-
+    
+        // Select field-specific options after applying all filters
         options = options.map(item => item[field]);
+    
+        // Remove duplicates
         options = [...new Set(options)];
-
+        console.log("first",options)
+        // Return options as objects with value and label keys
         return options.map(option => ({ value: option, label: option }));
-    }, [dropdownData, formData]);
-
-    useEffect(() => {
-        const updatedFilteredOptions = {
-            equipmentId: getFilteredOptions('equipmentId'),
-            subLocation: getFilteredOptions('subLocation'),
-            model: getFilteredOptions('model'),
-            refrigerant: getFilteredOptions('refrigerant'),
-            unitType: getFilteredOptions('unitType')
-        };
-        setFilteredOptions(updatedFilteredOptions);
-    }, [getFilteredOptions]);
+    };
+    
+    
     
     return (
     <>
         <div className='pageBody'>
-            <div className="topBody">
-                <FontAwesomeIcon icon={faForumbee} />
-            </div>
-            <div className='midBody'>
-                <h1>Main Form</h1>
-                <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit.</p>
-            </div>
+           <div className="title">
+            <h1 style={{color:"#379AFF"}}>SHAM ENGINEERING WORKS</h1>
+            <img src={image} alt="abc" className='img1'/>
+           </div>
             <form className="formBody">
                 <div className="formSections">
                     <h2>Service Details</h2>
@@ -200,7 +195,7 @@ const Form = () => {
                        <div>
                     <FontAwesomeIcon icon={faForumbee} />
 
-                    <Select options={getFilteredOptions("subloaction")} value={ formData.subLocation 
+                    <Select options={getFilteredOptions("subloaction")} value={ formData.equipmentId 
                     ? { value: formData.subLocation, label: formData.subLocation }: null }
                     onChange={(selectedOption) => handleSelectChange(selectedOption, "subLocation")}
                     placeholder="Select Sub Location"
@@ -227,7 +222,7 @@ const Form = () => {
                     <FontAwesomeIcon icon={faForumbee} />
                     <Select
                         options={getFilteredOptions("manufacturer")}
-                        value={formData.manufacturer ? { value: formData.manufacturer,label: formData.manufacturer  } : null}
+                        value={formData.model ? { value: formData.manufacturer,label: formData.manufacturer  } : null}
                         onChange={(selectedOption) => handleSelectChange(selectedOption, "manufacturer")}
                         placeholder="Select Manufacturer"
                         isClearable
@@ -268,7 +263,7 @@ const Form = () => {
 
                     <Select
                         options={getFilteredOptions("charge")}
-                        value={formData.Fullkgs ? { value: formData.Fullkgs,label: formData.Fullkgs  } : null}
+                        value={formData.Full ? { value: formData.Fullkgs,label: formData.Fullkgs  } : null}
                         onChange={(selectedOption) => handleSelectChange(selectedOption, "Fullkgs")}
                         placeholder="Select Charge"
                         isClearable
@@ -467,26 +462,18 @@ const Form = () => {
                 </div>
 
                 <div className="formSections">
-                    <h2>Others</h2>
+                    <h2>Images</h2>
                     <hr />
-                    <div className='formTextGroup'>
-                        <p>Leak Tester Make
-                        Model <span>*</span></p>
-                        <div>
-                            <FontAwesomeIcon icon={faForumbee} />
-                            <input type="text" placeholder='model here...' name="others" value={formData.others || ''}
-                              onChange={handleInputChange}  />
-                        </div>
-                    </div>
+                    
                     <div className='formTextGroup imageInputs'>
-                        <p>Accoustic Image - AHU-FGFL-1-ID-D2 <span>*</span></p>
+                        <p>Accoustic Image - <span>*</span></p>
                         <div>
                             <input type="file" onChange={(e) => handleImageChange(e, 'image1')} />
                             {imagePreviews.image1 && <img src={imagePreviews.image1} alt="Preview of Image 1" style={{ width: '100px', height: '100px', marginTop: '10px' }} />}
                         </div>
                     </div>
                     <div className='formTextGroup imageInputs'>
-                        <p>Accoustic Image - AHU-FGFL-1-OD-D2 <span>*</span></p>
+                        <p>Accoustic Image -  <span>*</span></p>
                         <div>
                             <input type="file" onChange={(e) => handleImageChange(e, 'image2')} />
                             {imagePreviews.image2 && <img src={imagePreviews.image2} alt="Preview of Image 2" style={{ width: '100px', height: '100px', marginTop: '10px' }} />}
