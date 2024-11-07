@@ -377,7 +377,7 @@ const Form = () => {
                         <p>Follow-up Verification Test (date): <span>*</span></p>
                         <div>
                             <FontAwesomeIcon icon={faForumbee} />
-                            <input type="date" placeholder='type method here...' value={formData.equipmentId || ''}
+                            <input type="date" placeholder='type method here...' value={formData.FUVT || ''}
                             name="FUVT"  onChange={handleInputChange}  />
                         </div>
                     </div>
