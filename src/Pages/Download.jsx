@@ -248,8 +248,7 @@ const downloadPDF = () => {
 
 
                 <div className='row-6' style={{display:"flex", alignItems:"center"}}>
-                <p><strong>Leak Tester Make/</strong></p>
-                    <p ><strong style={{marginRight:"10px"}}>Model:</strong>{getValue(location.state.model)}</p>
+                <p><strong>Leak Tester Make / Model: IFLUKE / ii900 Industrial Acoustic Imager</strong></p>
                 </div>
 
                 <div className="image-container">
