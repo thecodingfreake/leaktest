@@ -32,6 +32,11 @@ const Download = ({ state = {} }) => {
             console.warn('No image2 found in local storage');
         }
     }, []);
+    const formatDate = (dateStr) => {
+        if (!dateStr) return '-';
+        const [year, month, day] = dateStr.split('-');
+        return `${day}-${month}-${year}`;
+    };
     const promptForErase = () => {
         const confirmErase = window.confirm('Do you want to erase the images from local storage?');
         if (confirmErase) {
@@ -85,10 +90,10 @@ const downloadPDF = () => {
                         <p><strong>Work order: </strong>{getValue(location.state.workOrder)}</p>
                         <br/>
 
-                        <p><strong>Date issue: </strong>{getValue(location.state.dateIssued)}</p>
+                        <p><strong>Date issue: </strong>{formatDate(location.state.dateIssued)}</p>
                         <br/>
 
-                        <p><strong>Completed date: </strong>{getValue(location.state.dateCompleted)}</p>
+                        <p><strong>Completed date: </strong>{formatDate(location.state.dateCompleted)}</p>
                         <br/>
 
                         <p><strong>Contractors / Technicians: </strong>{getValue(location.state.contractors)}</p>
@@ -207,15 +212,15 @@ const downloadPDF = () => {
                 <div className="leak-container">
                     <div className="leak-details">
                         <h2>Leaks</h2>
-                        <p><div style={{marginLeft:"70px",marginRight:"200px", display:"inline-block"}}>Leak found:</div> date: {getValue(location.state.lid)}</p>
+                        <p><div style={{marginLeft:"70px",marginRight:"200px", display:"inline-block"}}>Leak found:</div> date: {formatDate(location.state.lid)}</p>
                         <br/>
-                        <p><div style={{marginLeft:"70px",marginRight:"183px",display:"inline-block"}}>Leak repaired:</div> date: {getValue(location.state.date1)}</p>
+                        <p><div style={{marginLeft:"70px",marginRight:"183px",display:"inline-block"}}>Leak repaired:</div> date: {formatDate(location.state.date1)}</p>
                         <br/>
-                        <p><div style={{marginLeft:"70px",marginRight:"89px", display:"inline-block"}}>Initial Leak Verification Test:</div> date: {getValue(location.state.ILVT)}</p>
+                        <p><div style={{marginLeft:"70px",marginRight:"89px", display:"inline-block"}}>Initial Leak Verification Test:</div> date: {formatDate(location.state.ILVT)}</p>
                         <br/>
                         <p><div style={{marginLeft:"32px",marginRight:"77px", display:"inline-block",fontSize:"12px"}}> Test done after repair before charging</div> method: {getValue(location.state.TDAFRBC)}</p>
                         <br/>
-                        <p><div style={{marginLeft:"70px",marginRight:"89px", display:"inline-block"}}>Follow-up Verification Test:</div> date: {getValue(location.state.FUVT)}</p>
+                        <p><div style={{marginLeft:"70px",marginRight:"89px", display:"inline-block"}}>Follow-up Verification Test:</div> date: {formatDate(location.state.FUVT)}</p>
                         <br/>
                         <p><div style={{marginLeft:"32px",marginRight:"70px", display:"inline-block",fontSize:"12px"}}>Test done with unit running under normal load</div> method: {getValue(location.state.TDWURUNL)}</p>
                     </div>
