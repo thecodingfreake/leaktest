@@ -341,7 +341,8 @@ input[type="file"]{
 
 .comparison-image {
   width: 100%;
-  max-width: 500px; 
+  max-width: 400px;
+  max-height: 400px; 
   height: auto;
   border: 1px solid #ccc;
   margin-top: 20px;
@@ -362,4 +363,12 @@ input[type="file"]{
   color: white;
   border-radius: 5px;
   padding: 5px;
+}
+.title{
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+.img1{
+  height: 110px;
 }
