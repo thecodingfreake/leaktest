@@ -80,18 +80,18 @@ const downloadPDF = () => {
 
                 <div className='row-1'>
                     <div className='col-1'>
-                        <p><strong>Service Id:</strong>{getValue(location.state.serviceId)}</p>
+                        <p><strong>Service Id: </strong>{getValue(location.state.serviceId)}</p>
                         <br/>
-                        <p><strong>Work order:</strong>{getValue(location.state.workOrder)}</p>
-                        <br/>
-
-                        <p><strong>Date issue:</strong>{getValue(location.state.dateIssued)}</p>
+                        <p><strong>Work order: </strong>{getValue(location.state.workOrder)}</p>
                         <br/>
 
-                        <p><strong>Completed date:</strong>{getValue(location.state.dateCompleted)}</p>
+                        <p><strong>Date issue: </strong>{getValue(location.state.dateIssued)}</p>
                         <br/>
 
-                        <p><strong>Contractors / Technicians:</strong>{getValue(location.state.contractors)}</p>
+                        <p><strong>Completed date: </strong>{getValue(location.state.dateCompleted)}</p>
+                        <br/>
+
+                        <p><strong>Contractors / Technicians: </strong>{getValue(location.state.contractors)}</p>
                         <br/>
 
                     </div>
@@ -100,22 +100,22 @@ const downloadPDF = () => {
                         <p><strong> IFF Ltd., Sricity, General Location: </strong>{getValue(location.state.generalLocation)}</p>
                         <br/>
                         <div className="inline-fields">
-                            <p><strong>EquipmentID :</strong>{getValue(location.state.equipmentId)}</p>
+                            <p><strong>EquipmentID: </strong>{getValue(location.state.equipmentId)}</p>
                         </div>
                         <br/>
                         <div className="inline-fields">
-                            <p><strong>Sublocation :</strong>{getValue(location.state.subLocation)}</p>
-                            <p><strong>Model:</strong>{getValue(location.state.model)}</p>
+                            <p><strong>Sublocation: </strong>{getValue(location.state.subLocation)}</p>
+                            <p><strong>Model: </strong>{getValue(location.state.model)}</p>
                         </div>
                         <br/>
                         <div className="inline-fields">
-                            <p><strong>Manufacturer:</strong>{getValue(location.state.manufacturer)}</p>
-                            <p><strong>Unit type:</strong>{getValue(location.state.unitType)}</p>
+                            <p><strong>Manufacturer: </strong>{getValue(location.state.manufacturer)}</p>
+                            <p><strong>Unit type: </strong>{getValue(location.state.unitType)}</p>
                         </div>
                         <br/>
                         <div className="inline-fields">
-                            <p><strong>Refrigerant:</strong>{getValue(location.state.refrigerant)}</p>
-                            <p><strong>Charge FUll Kgs:</strong>{getValue(location.state.Fullkgs)}</p>
+                            <p><strong>Refrigerant: </strong>{getValue(location.state.refrigerant)}</p>
+                            <p><strong>Charge FUll Kgs: </strong>{getValue(location.state.Fullkgs)}</p>
                         </div>
                         <br/>
                     </div>
@@ -244,16 +244,16 @@ const downloadPDF = () => {
 
                 <div className='row-6' style={{display:"flex", alignItems:"center"}}>
                 <p><strong>Leak Tester Make/</strong></p>
-                    <p ><strong style={{marginRight:"10px"}}>Model:</strong>{getValue(location.state.others)}</p>
+                    <p ><strong style={{marginRight:"10px"}}>Model:</strong>{getValue(location.state.model)}</p>
                 </div>
 
                 <div className="image-container">
                     <div className="image-section">
-                        <h3>AHU-FGFL-1-ID-D2</h3>
+                        <h3>{getValue(location.state.model)}</h3>
                         <img src={image1} alt="First Image" className="comparison-image" />
                     </div>
                     <div className="image-section">
-                        <h3>AHU-FGFL-1-OD-D2</h3>
+                        <h3>{getValue(location.state.model)}</h3>
                         <img src={image2} alt="Second Image" className="comparison-image" />
                     </div>
                 </div>
