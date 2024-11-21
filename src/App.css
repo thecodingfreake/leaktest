@@ -410,3 +410,42 @@ input[type="file"]{
 .img1{
   height: 110px;
 }
+body{
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+.heading{
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  width: 1000px;
+  height: 100px;
+  font-size: 14px;
+  border-bottom: 2px solid rgb(4, 76, 191);
+}
+.logo{
+  height: 94px;
+  width: 178px;
+}
+h2{
+color:rgb(4, 76, 191);
+}
+.selection{
+  display: flex;
+  font-size: 25px;
+  justify-content: space-around;
+  padding: 10px;
+  margin-top: 25px;
+}
+.costing{
+  margin-left: 60px;
+  width: 100px;
+  height: 25px;
+  transition: width 0.4s ease-in-out;
+}
+.costing:focus{
+  border: 1px solid black;
+  outline:none;
+  width: 197px;
+}
