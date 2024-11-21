@@ -16,6 +16,12 @@ body{
     height: 94px;
     width: 178px;
   }
+  div{
+    margin: 10px 10px 10px 10px;
+  }
+  p{
+    margin: 10px 10px 10px 10px;
+  }
   h2{
   color:rgb(4, 76, 191);
   }
