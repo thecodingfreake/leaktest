@@ -1,7 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import image from "../assests/logo.png"
 import './insu.css'
-
 const InsulationCalculator = () => {
   const [selectedInsulation, setSelectedInsulation] = useState('');
   const [costing, setCosting] = useState({
@@ -51,31 +50,50 @@ const InsulationCalculator = () => {
     rockwoolf: 0, rockwools: 0, rockwoolc: 0, rockwooltot: 0,
     addtot: 0, profitot: 0, discounttot: 0
   });
+  const keysToStore = ['f19', 'f32', 'f25', 'c4', 'c5', 'r19', 'r32', 'r25', 't', 'resin'];
 
-  // useEffect(() => {
-  //   const storedCosting = JSON.parse(localStorage.getItem('costing'));
-  //   if (storedCosting) {
-  //     setCosting(storedCosting);
-  //   }
-  // }, []);
+  useEffect(() => {
+    // Retrieve values from localStorage and update the state
+    const storedValues = keysToStore.reduce((acc, key) => {
+      const storedValue = localStorage.getItem(key);
+      if (storedValue !== null) {
+        acc[key] = parseFloat(storedValue); // Convert string back to number
+      }
+      return acc;
+    }, {});
+
+    // Merge stored values with initial state
+    setCosting((prevCosting) => ({
+      ...prevCosting,
+      ...storedValues,
+    }));
+  }, []);
 
   const handleSelectionChange = (event) => {
     setSelectedInsulation(event.target.value);
   };
-
   const handleInputChange = (event) => {
     const { name, value } = event.target;
+  
+    // Define the list of keys you want to store
+    const keysToStore = ['f19', 'f32', 'f25', 'c4', 'c5', 'r19', 'r32', 'r25', 't', 'resin'];
+  
     setCosting((prevCosting) => {
-      const updatedCosting = { ...prevCosting, [name]: parseInt(value) };
-      console.log(name,value)
-      if (name === 'f19') {
-        updatedCosting.FFH = updatedCosting.f19;
+      const updatedCosting = { ...prevCosting, [name]: parseFloat(value) };
+      console.log(name, value);
+  
+      // Store only the specified keys in localStorage
+      if (keysToStore.includes(name)) {
+        localStorage.setItem(name, updatedCosting[name]);
       }
+  
       calculateTotalCost(updatedCosting); // Use updatedCosting here
       return updatedCosting;
     });
-    console.log(costing)
+  
+    console.log(costing);
   };
+  
   
 
   const calculateTotalCost = (costing1) => {
@@ -95,10 +113,10 @@ const InsulationCalculator = () => {
     let foamtot = (foamf + foamc + foams)||0;
     let totalRockwool = (rockwoolf + rockwools + rockwoolc)||0;
     const totadd2=(totadd+totalCeramic+foamtot+totalRockwool)||0
-    const marp=((totadd2*parseInt(costing1.marp))/100)||0;
+    const marp=((totadd2*parseFloat(costing1.marp))/100)||0;
     console.log(marp)
     const mar=(marp+totadd2)||0
-    const totd=((mar*parseInt(costing1.dis))/100)||0
+    const totd=((mar*parseFloat(costing1.dis))/100)||0
     const total=(mar-totd)||0
     setCalc((prevCalc) => ({
       ...prevCalc,
@@ -215,11 +233,11 @@ const InsulationCalculator = () => {
   <div>
     <div>
       <p style={{display:'inline-block'}}>Cost of Cladding (0.4mm): </p>
-      <input className='costing' name="c4"  value={costing.c4 || ''} type='number'onChange={handleInputChange} />
+      <input className='costing' name="c4"  value={costing.c4 || ''} type='number' step='0.001'onChange={handleInputChange} />
     </div>
     <div>
       <p style={{display:'inline-block'}}>Cost of Cladding (0.5mm): </p>
-      <input className='costing' name="c5"  value={costing.c5 || ''} type='number' onChange={handleInputChange} />
+      <input className='costing' name="c5"  value={costing.c5 || ''} type='number' step='0.001' onChange={handleInputChange} />
     </div>
     </div>
     {selectedInsulation === "foam" && ( <div className="container-1" name="foam-content">
@@ -227,15 +245,15 @@ const InsulationCalculator = () => {
       <p>Costing of thickness: </p>
       <div>
       <p style={{display:'inline-block'}}>Cost of 19mm thickness: </p>
-      <input className='costing'   value={costing.f19 || ''} type='number' onChange={handleInputChange} name="f19"   />
+      <input className='costing'   value={costing.f19 || ''} type='number' step='0.001' onChange={handleInputChange} name="f19"   />
     </div>
     <div>
       <p style={{display:'inline-block'}}>Cost of 25mm thickness: </p>
-      <input className='costing' name="f25" value={costing.f25 || ''} type='number'onChange={handleInputChange} />
+      <input className='costing' name="f25" value={costing.f25 || ''} type='number' step='0.001'onChange={handleInputChange} />
     </div>
     <div>
       <p style={{display:'inline-block'}}>Cost of 32mm thickness: </p>
-      <input className='costing' name="f32" value={costing.f32 || ''} type='number'onChange={handleInputChange} />
+      <input className='costing' name="f32" value={costing.f32 || ''} type='number' step='0.001'onChange={handleInputChange} />
     </div>
       <div>
       <p style={{display:'inline-block'}}>First Layer Thickness</p>
@@ -248,11 +266,11 @@ const InsulationCalculator = () => {
     </div>
     <div>
       <p style={{display:'inline-block'}}>Length of first layer foam in sq.m: </p>
-      <input className='costing' name="fl"  type='number'onChange={handleInputChange} />
+      <input className='costing' name="fl"  type='number' step='0.001'onChange={handleInputChange} />
     </div>
     <div>
       <p style={{display:'inline-block'}}>Height of first layer foam in sq.m: </p>
-      <input className='costing' name="fh" type='number'onChange={handleInputChange} />
+      <input className='costing' name="fh" type='number' step='0.001'onChange={handleInputChange} />
     </div>
     <p>Cost for the First layer: {calc.foamf} </p>
     <div>
@@ -266,11 +284,11 @@ const InsulationCalculator = () => {
     </div>
     <div>
       <p style={{display:'inline-block'}}>Length of second layer foam in sq.m: </p>
-      <input className='costing' name="fl2" type='number'onChange={handleInputChange} />
+      <input className='costing' name="fl2" type='number' step='0.001'onChange={handleInputChange} />
     </div>
     <div>
       <p style={{display:'inline-block'}}>Height of second layer foam in sq.m: </p>
-      <input className='costing' name="fh2" type='number'onChange={handleInputChange} />
+      <input className='costing' name="fh2" type='number' step='0.001'onChange={handleInputChange} />
     </div>
     <p>Cost for the Second layer: {calc.foams}</p>
     <div>
@@ -283,11 +301,11 @@ const InsulationCalculator = () => {
     </div>
     <div>
       <p style={{display:'inline-block'}}>Length of Cladding layer foam in sq.m: </p>
-      <input className='costing' name="flc" type='number'onChange={handleInputChange} />
+      <input className='costing' name="flc" type='number' step='0.001'onChange={handleInputChange} />
     </div>
     <div>
       <p style={{display:'inline-block'}}>Height of Cladding layer foam in sq.m: </p>
-      <input className='costing' name="fhc" type='number'onChange={handleInputChange} />
+      <input className='costing' name="fhc" type='number' step='0.001'onChange={handleInputChange} />
     </div>
     <p>Cost for the Cladding layer:{calc.foamc} </p>
     <p> total cost for the foam:{calc.foamtot} </p>
@@ -298,11 +316,11 @@ const InsulationCalculator = () => {
       <p>Costing of thickness: </p>
       <div>
       <p style={{display:'inline-block'}}>Cost of 25mm thickness: </p>
-      <input className='costing'  value={costing.c25 || ''} name="c25" type='number'onChange={handleInputChange} />
+      <input className='costing'  value={costing.c25 || ''} name="c25" type='number' step='0.001'onChange={handleInputChange} />
     </div>
     <div>
       <p style={{display:'inline-block'}}>Cost of 50mm thickness: </p>
-      <input className='costing' name="c50"  value={costing.c50 || ''} type='number'onChange={handleInputChange} />
+      <input className='costing' name="c50"  value={costing.c50 || ''} type='number' step='0.001'onChange={handleInputChange} />
     </div>
       <div>
       <p style={{display:'inline-block'}}>First Layer Thickness</p>
@@ -314,11 +332,11 @@ const InsulationCalculator = () => {
     </div>
     <div>
       <p style={{display:'inline-block'}}>Length of first layer ceramic in sq.m: </p>
-      <input className='costing' name="cl" type='number'onChange={handleInputChange} />
+      <input className='costing' name="cl" type='number' step='0.001'onChange={handleInputChange} />
     </div>
     <div>
       <p style={{display:'inline-block'}}>Height of first layer ceramic in sq.m: </p>
-      <input className='costing' name="ch" type='number'onChange={handleInputChange} />
+      <input className='costing' name="ch" type='number' step='0.001'onChange={handleInputChange} />
     </div>
     <p>Cost for the First layer:{calc.ceramicf} </p>
     <div>
@@ -331,11 +349,11 @@ const InsulationCalculator = () => {
     </div>
     <div>
       <p style={{display:'inline-block'}}>Length of second layer ceramic in sq.m: </p>
-      <input className='costing' name="cl2" type='number'onChange={handleInputChange} />
+      <input className='costing' name="cl2" type='number' step='0.001'onChange={handleInputChange} />
     </div>
     <div>
       <p style={{display:'inline-block'}}>Height of second layer ceramic in sq.m: </p>
-      <input className='costing' name="ch2" type='number'onChange={handleInputChange} />
+      <input className='costing' name="ch2" type='number' step='0.001'onChange={handleInputChange} />
     </div>
     <p>Cost for the Second layer:{calc.ceramics} </p>
     <div>
@@ -348,11 +366,11 @@ const InsulationCalculator = () => {
     </div>
     <div>
       <p style={{display:'inline-block'}}>Length of Cladding layer foam in sq.m: </p>
-      <input className='costing' name="clc" type='number'onChange={handleInputChange} />
+      <input className='costing' name="clc" type='number' step='0.001'onChange={handleInputChange} />
     </div>
     <div>
       <p style={{display:'inline-block'}}>Height of Cladding layer foam in sq.m: </p>
-      <input className='costing' name="chc" type='number'onChange={handleInputChange} />
+      <input className='costing' name="chc" type='number' step='0.001'onChange={handleInputChange} />
     </div>
     <p>Cost for the Cladding layer: {calc.ceramicc}</p>
     <p> total cost for the foam: {calc.totalCeramic}</p>
@@ -363,15 +381,15 @@ const InsulationCalculator = () => {
       <p>Costing of thickness: </p>
       <div>
       <p style={{display:'inline-block'}}>Cost of 19mm thickness: </p>
-      <input className='costing'  value={costing.R19 || ''} name="R19" type='number'onChange={handleInputChange} />
+      <input className='costing'  value={costing.R19 || ''} name="R19" type='number' step='0.001'onChange={handleInputChange} />
     </div>
     <div>
       <p style={{display:'inline-block'}}>Cost of 25mm thickness: </p>
-      <input className='costing' name="R25"  value={costing.R25 || ''} type='number'onChange={handleInputChange} />
+      <input className='costing' name="R25"  value={costing.R25 || ''} type='number' step='0.001'onChange={handleInputChange} />
     </div>
     <div>
       <p style={{display:'inline-block'}}>Cost of 32mm thickness: </p>
-      <input className='costing' name="R32"  value={costing.R32 || ''} type='number'onChange={handleInputChange} />
+      <input className='costing' name="R32"  value={costing.R32 || ''} type='number' step='0.001'onChange={handleInputChange} />
     </div>
       <div>
       <p style={{display:'inline-block'}}>First Layer Thickness</p>
@@ -385,11 +403,11 @@ const InsulationCalculator = () => {
     </div>
     <div>
       <p style={{display:'inline-block'}}>Length of first layer rockwool in sq.m: </p>
-      <input className='costing' name="rl" type='number'onChange={handleInputChange} />
+      <input className='costing' name="rl" type='number' step='0.001'onChange={handleInputChange} />
     </div>
     <div>
       <p style={{display:'inline-block'}}>Height of first layer rockwool in sq.m: </p>
-      <input className='costing' name="rh" type='number'onChange={handleInputChange} />
+      <input className='costing' name="rh" type='number' step='0.001'onChange={handleInputChange} />
     </div>
     <p>Cost for the First layer:{calc.rockwoolf} </p>
     <div>
@@ -402,11 +420,11 @@ const InsulationCalculator = () => {
     </div>
     <div>
       <p style={{display:'inline-block'}}>Length of second layer rockwool in sq.m: </p>
-      <input className='costing' name="rl2" type='number'onChange={handleInputChange} />
+      <input className='costing' name="rl2" type='number' step='0.001'onChange={handleInputChange} />
     </div>
     <div>
       <p style={{display:'inline-block'}}>Height of second layer rockwool in sq.m: </p>
-      <input className='costing' name="rh2" type='number'onChange={handleInputChange} />
+      <input className='costing' name="rh2" type='number' step='0.001'onChange={handleInputChange} />
     </div>
     <p>Cost for the Second layer:{calc.rockwools} </p>
     <div>
@@ -421,11 +439,11 @@ const InsulationCalculator = () => {
     </div>
     <div>
       <p style={{display:'inline-block'}}>Length of Cladding layer rockwool in sq.m: </p>
-      <input className='costing' name="rlc" type='number'onChange={handleInputChange} />
+      <input className='costing' name="rlc" type='number' step='0.001'onChange={handleInputChange} />
     </div>
     <div>
       <p style={{display:'inline-block'}}>Height of Cladding layer rockwool in sq.m: </p>
-      <input className='costing' name="rhc" type='number'onChange={handleInputChange} />
+      <input className='costing' name="rhc" type='number' step='0.001'onChange={handleInputChange} />
     </div>
     <p>Cost for the Cladding layer:{calc.rockwoolc} </p>
     <p> total cost for the Rockwool:{calc.totalRockwool} </p>
@@ -434,27 +452,27 @@ const InsulationCalculator = () => {
       <p>Additional cost</p>
       <div>
       <p style={{display:'inline-block'}}>Labour cost:  </p>
-      <input className='costing' name="lab" type='number'onChange={handleInputChange} />
+      <input className='costing' name="lab" type='number' step='0.001'onChange={handleInputChange} />
     </div>
     <div>
       <p style={{display:'inline-block'}}>Transport cost:  </p>
-      <input className='costing' name="trans" type='number'onChange={handleInputChange} />
+      <input className='costing' name="trans" type='number' step='0.001'onChange={handleInputChange} />
     </div>
     <div>
       <p style={{display:'inline-block'}}>Black tape cost per tape:  </p>
-      <input className='costing' name="t"  value={costing.t || ''} type='number'onChange={handleInputChange} />
+      <input className='costing' name="t"  value={costing.t || ''} type='number' step='0.001'onChange={handleInputChange} />
     </div>
     <div>
       <p style={{display:'inline-block'}}>quantity of black tape  </p>
-      <input className='costing' name="tp" type='number'onChange={handleInputChange} />
+      <input className='costing' name="tp" type='number' step='0.001'onChange={handleInputChange} />
     </div>
     <div>
       <p style={{display:'inline-block'}}>Resin per tin cost:  </p>
-      <input className='costing' name="resin"  value={costing.resin || ''} type='number'onChange={handleInputChange} />
+      <input className='costing' name="resin"  value={costing.resin || ''} type='number' step='0.001'onChange={handleInputChange} />
     </div>
     <div>
       <p style={{display:'inline-block'}}>Quantity of Resin cost:  </p>
-      <input className='costing' name="resintot" type='number'onChange={handleInputChange} />
+      <input className='costing' name="resintot" type='number' step='0.001'onChange={handleInputChange} />
     </div>
     <p>total cost of additonal:{calc.totadd} </p>
     <p>total cost including additional cost: {calc.totadd2}</p>
