@@ -265,11 +265,11 @@ const InsulationCalculator = () => {
       </select>
     </div>
     <div>
-      <p style={{display:'inline-block'}}>Length of first layer foam in sq.m: </p>
+      <p style={{display:'inline-block'}}>Length of first layer foam in m: </p>
       <input className='costing' name="fl"  type='number' step='0.001'onChange={handleInputChange} />
     </div>
     <div>
-      <p style={{display:'inline-block'}}>Height of first layer foam in sq.m: </p>
+      <p style={{display:'inline-block'}}>Height of first layer foam in m: </p>
       <input className='costing' name="fh" type='number' step='0.001'onChange={handleInputChange} />
     </div>
     <p>Cost for the First layer: {calc.foamf} </p>
@@ -283,11 +283,11 @@ const InsulationCalculator = () => {
       </select>
     </div>
     <div>
-      <p style={{display:'inline-block'}}>Length of second layer foam in sq.m: </p>
+      <p style={{display:'inline-block'}}>Length of second layer foam in m: </p>
       <input className='costing' name="fl2" type='number' step='0.001'onChange={handleInputChange} />
     </div>
     <div>
-      <p style={{display:'inline-block'}}>Height of second layer foam in sq.m: </p>
+      <p style={{display:'inline-block'}}>Height of second layer foam in m: </p>
       <input className='costing' name="fh2" type='number' step='0.001'onChange={handleInputChange} />
     </div>
     <p>Cost for the Second layer: {calc.foams}</p>
@@ -300,11 +300,11 @@ const InsulationCalculator = () => {
       </select>
     </div>
     <div>
-      <p style={{display:'inline-block'}}>Length of Cladding layer foam in sq.m: </p>
+      <p style={{display:'inline-block'}}>Length of Cladding layer foam in m: </p>
       <input className='costing' name="flc" type='number' step='0.001'onChange={handleInputChange} />
     </div>
     <div>
-      <p style={{display:'inline-block'}}>Height of Cladding layer foam in sq.m: </p>
+      <p style={{display:'inline-block'}}>Height of Cladding layer foam in m: </p>
       <input className='costing' name="fhc" type='number' step='0.001'onChange={handleInputChange} />
     </div>
     <p>Cost for the Cladding layer:{calc.foamc} </p>
@@ -331,11 +331,11 @@ const InsulationCalculator = () => {
       </select>
     </div>
     <div>
-      <p style={{display:'inline-block'}}>Length of first layer ceramic in sq.m: </p>
+      <p style={{display:'inline-block'}}>Length of first layer ceramic in m: </p>
       <input className='costing' name="cl" type='number' step='0.001'onChange={handleInputChange} />
     </div>
     <div>
-      <p style={{display:'inline-block'}}>Height of first layer ceramic in sq.m: </p>
+      <p style={{display:'inline-block'}}>Height of first layer ceramic in m: </p>
       <input className='costing' name="ch" type='number' step='0.001'onChange={handleInputChange} />
     </div>
     <p>Cost for the First layer:{calc.ceramicf} </p>
@@ -348,11 +348,11 @@ const InsulationCalculator = () => {
       </select>
     </div>
     <div>
-      <p style={{display:'inline-block'}}>Length of second layer ceramic in sq.m: </p>
+      <p style={{display:'inline-block'}}>Length of second layer ceramic in m: </p>
       <input className='costing' name="cl2" type='number' step='0.001'onChange={handleInputChange} />
     </div>
     <div>
-      <p style={{display:'inline-block'}}>Height of second layer ceramic in sq.m: </p>
+      <p style={{display:'inline-block'}}>Height of second layer ceramic in m: </p>
       <input className='costing' name="ch2" type='number' step='0.001'onChange={handleInputChange} />
     </div>
     <p>Cost for the Second layer:{calc.ceramics} </p>
@@ -365,11 +365,11 @@ const InsulationCalculator = () => {
       </select>
     </div>
     <div>
-      <p style={{display:'inline-block'}}>Length of Cladding layer foam in sq.m: </p>
+      <p style={{display:'inline-block'}}>Length of Cladding layer foam in m: </p>
       <input className='costing' name="clc" type='number' step='0.001'onChange={handleInputChange} />
     </div>
     <div>
-      <p style={{display:'inline-block'}}>Height of Cladding layer foam in sq.m: </p>
+      <p style={{display:'inline-block'}}>Height of Cladding layer foam in m: </p>
       <input className='costing' name="chc" type='number' step='0.001'onChange={handleInputChange} />
     </div>
     <p>Cost for the Cladding layer: {calc.ceramicc}</p>
@@ -402,11 +402,11 @@ const InsulationCalculator = () => {
       </select>
     </div>
     <div>
-      <p style={{display:'inline-block'}}>Length of first layer rockwool in sq.m: </p>
+      <p style={{display:'inline-block'}}>Length of first layer rockwool in m: </p>
       <input className='costing' name="rl" type='number' step='0.001'onChange={handleInputChange} />
     </div>
     <div>
-      <p style={{display:'inline-block'}}>Height of first layer rockwool in sq.m: </p>
+      <p style={{display:'inline-block'}}>Height of first layer rockwool in m: </p>
       <input className='costing' name="rh" type='number' step='0.001'onChange={handleInputChange} />
     </div>
     <p>Cost for the First layer:{calc.rockwoolf} </p>
@@ -419,11 +419,11 @@ const InsulationCalculator = () => {
       </select>
     </div>
     <div>
-      <p style={{display:'inline-block'}}>Length of second layer rockwool in sq.m: </p>
+      <p style={{display:'inline-block'}}>Length of second layer rockwool in m: </p>
       <input className='costing' name="rl2" type='number' step='0.001'onChange={handleInputChange} />
     </div>
     <div>
-      <p style={{display:'inline-block'}}>Height of second layer rockwool in sq.m: </p>
+      <p style={{display:'inline-block'}}>Height of second layer rockwool in m: </p>
       <input className='costing' name="rh2" type='number' step='0.001'onChange={handleInputChange} />
     </div>
     <p>Cost for the Second layer:{calc.rockwools} </p>
@@ -438,11 +438,11 @@ const InsulationCalculator = () => {
       </select>
     </div>
     <div>
-      <p style={{display:'inline-block'}}>Length of Cladding layer rockwool in sq.m: </p>
+      <p style={{display:'inline-block'}}>Length of Cladding layer rockwool in m: </p>
       <input className='costing' name="rlc" type='number' step='0.001'onChange={handleInputChange} />
     </div>
     <div>
-      <p style={{display:'inline-block'}}>Height of Cladding layer rockwool in sq.m: </p>
+      <p style={{display:'inline-block'}}>Height of Cladding layer rockwool in m: </p>
       <input className='costing' name="rhc" type='number' step='0.001'onChange={handleInputChange} />
     </div>
     <p>Cost for the Cladding layer:{calc.rockwoolc} </p>
