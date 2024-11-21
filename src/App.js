@@ -11,7 +11,7 @@ function App() {
       <Routes>
         <Route path='/' Component={Form}></Route>
         <Route path='/download' Component={Download}></Route>
-        <Route path='/insulaion' Component={InsulationCalculator}></Route>
+        <Route path='/insulation' Component={InsulationCalculator}></Route>
 
       </Routes>
     </BrowserRouter>
