@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import image from "../assets/logo.png"
+import image from "../assests/logo.png"
 
 const InsulationCalculator = () => {
   const [selectedInsulation, setSelectedInsulation] = useState('');
